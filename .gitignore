@@ -6,4 +6,14 @@ venv/
 .env
 *.env
 
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
 # db.sqlite3
