@@ -1,0 +1,9 @@
+# Виртуальное окружение
+venv/
+.venv/
+
+# Environment variables
+.env
+*.env
+
+# db.sqlite3

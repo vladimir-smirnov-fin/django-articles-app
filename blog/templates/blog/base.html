@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'blog/main.css' %}">
+</head>
+<body>
+  <!-- Navbar with full-width background -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <!-- Container for content, same width as main content -->
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'home' %}">itProger</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExample09">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link {% if active_tab == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if active_tab == 'contacts' %}active{% endif %}" href="{% url 'contacts' %}">Contacts</a>
+          </li>
+        </ul>
+
+        <div class="d-flex flex-column flex-lg-row mt-3 mt-lg-0">
+          {% if not user.is_authenticated %}
+          <a href="{% url 'reg' %}" class="mb-2 mb-lg-0 mr-lg-2">
+            <button class="btn btn-outline-warning w-100">Register</button>
+          </a>
+          <a href="{% url 'user' %}">
+            <button class="btn btn-outline-info w-100">Login</button>
+          </a>
+          {% else %}
+          <a href="{% url 'news-add' %}" class="mb-2 mb-lg-0 mr-lg-2">
+            <button class="btn btn-outline-secondary w-100 text-nowrap">Add Article</button>
+          </a>
+          <a href="{% url 'profile' %}" class="mb-2 mb-lg-0 mr-lg-2">
+            <button class="btn btn-outline-warning w-100">Profile</button>
+          </a>
+          <form method="post" action="{% url 'exit' %}" class="d-inline w-100">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-info w-100">Logout</button>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-8">
+        {% if messages %}
+          {% for mess in messages %}
+            <div class="alert alert-success">{{ mess }}</div>
+          {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+      </div>
+
+      <aside class="col-md-4">
+        <h3>Recommended</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat necessitatibus est enim saepe alias obcaecati.</p>
+        <br>
+        <h4 class="mt-2">Interesting Articles</h4><br>
+
+        <!-- FIRST ARTICLE (GitHub) -->
+        <img src="https://picsum.photos/id/0/300/200" class="img-thumbnail w-100" alt="GitHub Collaboration">
+        <p>GitHub is essential for any developer. Learn the basics of Git and GitHub, including how to contribute to open source, manage your projects, and collaborate effectively with other programmers.</p>
+        <a href="https://guides.github.com/activities/hello-world/" target="_blank" class="d-block">
+          <button class="btn btn-warning w-100">Read More</button>
+        </a><br>
+
+        <!-- SECOND ARTICLE (Web Development) -->
+        <img src="https://picsum.photos/id/1/300/200" class="img-thumbnail mt-4 w-100" alt="Web Development">
+        <p>Curious about how modern websites are built? This guide introduces the world of web development, covering front-end frameworks like React and back-end technologies like Node.js, perfect for starting your journey.</p>
+        <a href="https://www.theodinproject.com/" target="_blank" class="d-block">
+          <button class="btn btn-warning w-100">Read More</button>
+        </a>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md">
+          <small class="d-block mb-3 text-muted">© 2100</small>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Features</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Cool stuff</a></li>
+            <li><a class="text-muted" href="#">Random feature</a></li>
+            <li><a class="text-muted" href="#">Team feature</a></li>
+            <li><a class="text-muted" href="#">Stuff for developers</a></li>
+            <li><a class="text-muted" href="#">Another one</a></li>
+            <li><a class="text-muted" href="#">Last time</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Resources</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Resource</a></li>
+            <li><a class="text-muted" href="#">Resource name</a></li>
+            <li><a class="text-muted" href="#">Another resource</a></li>
+            <li><a class="text-muted" href="#">Final resource</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>About</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Team</a></li>
+            <li><a class="text-muted" href="#">Locations</a></li>
+            <li><a class="text-muted" href="#">Privacy</a></li>
+            <li><a class="text-muted" href="#">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JavaScript dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>
